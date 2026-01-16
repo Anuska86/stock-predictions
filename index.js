@@ -1,5 +1,7 @@
 import { dates } from "/utils/dates.js";
 
+const apiKey = import.meta.env.VITE_MASSIVE_API_KEY;
+
 const tickersArr = [];
 
 const generateReportBtn = document.querySelector(".generate-report-btn");
