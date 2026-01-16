@@ -2,17 +2,18 @@
 
 :root {
   --primary-gold: #ffcc00;
-  --bg-dark: #1a1a2e;
-  --card-bg: #16213e;
-  --text-light: #e94560;
-  --white: #ffffff;
+  --bg-dark: #12122b;
+  --card-bg: #1e1e3f;
+  --text-main: #f0f0f0;
+  --text-muted: #b0b0d1;
+  --accent-red: #ff4d6d;
 }
 
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background-color: var(--bg-dark);
-  color: var(--white);
+  color: var(--text-main);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -112,6 +113,9 @@ main {
   text-align: left;
   max-height: 300px;
   overflow-y: auto;
+  color: var(--white);
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
 }
 
 /* text */
@@ -154,20 +158,20 @@ label {
 }
 
 input[type="text"] {
-  background: transparent;
-  border: 2px solid #533483;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #4a4a8a;
   border-right: none;
   border-radius: 10px 0 0 10px;
   padding: 12px;
-  color: white;
+  color: var(--white);
   width: 60%;
 }
 
 /* Buttons */
 
 .add-ticker-btn {
-  background: #533483;
-  border: 2px solid #533483;
+  background: #4a4a8a;
+  border: 1px solid #4a4a8a;
   border-radius: 0 10px 10px 0;
   padding: 0 15px;
   cursor: pointer;
@@ -229,7 +233,8 @@ footer {
   padding: 1rem;
   text-align: center;
   font-size: 0.8rem;
-  color: #533483;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* stop ugly scroll bar on some browsers */
