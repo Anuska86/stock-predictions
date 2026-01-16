@@ -1,47 +1,59 @@
 /*BASE*/
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #f6f6f6;
+:root {
+  --primary-gold: #ffcc00;
+  --bg-dark: #1a1a2e;
+  --card-bg: #16213e;
+  --text-light: #e94560;
+  --white: #ffffff;
 }
 
-* {
-  box-sizing: border-box;
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
+  background: #0f3460;
+  padding: 1rem;
   display: flex;
   justify-content: center;
-  padding: 1em;
-  background-color: black;
-  margin: 0 auto;
+  border-bottom: 3px solid var(--primary-gold);
 }
 
 main {
+  flex: 1;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  padding-top: 2rem;
 }
 
 /*Logo*/
 
 #logo {
-  width: 250px;
+  width: 180px;
+  filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.3));
 }
 
 /* Panels */
 
 .action-panel,
-.output-panel {
-  line-height: 1.4em;
-  display: flex;
-  height: 350px;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  margin: 1.5em 2em;
+.output-panel,
+.loading-panel {
+  background: var(--card-bg);
+  width: 90%;
+  max-width: 450px;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .output-panel {
@@ -59,20 +71,26 @@ main {
   text-align: center;
 }
 
+.output-panel h2 {
+  color: var(--primary-gold);
+  margin-bottom: 1rem;
+}
 .output-panel p {
-  overflow-y: scroll;
+  line-height: 1.6;
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 /* text */
 
 h2 {
   text-align: center;
-  font-weight: 400;
-  margin-top: -26px;
-  background-color: #f6f6f6;
-  padding: 0 10px;
-  font-size: 18px;
-  margin-bottom: 0;
+  font-weight: 600;
+  color: var(--primary-gold);
+  background-color: transparent;
+  font-size: 22px;
+  margin: 0 0 1rem 0;
 }
 
 p.tag-line {
@@ -81,16 +99,10 @@ p.tag-line {
   font-size: 14px;
 }
 
-.ticker-choice-display {
-  display: flex;
-  align-items: center;
-  height: 3em;
-}
-
-/* controls */
+/* Controls */
 
 form {
-  width: 360px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,7 +113,7 @@ label {
   padding: 0.43em;
   font-size: 15px;
   margin-bottom: 1em;
-  width: 80%;
+  color: var(--white);
 }
 
 .form-input-control {
@@ -110,21 +122,23 @@ label {
 }
 
 input[type="text"] {
-  padding: 1em;
-  border: 2px solid black;
+  background: transparent;
+  border: 2px solid #533483;
   border-right: none;
+  border-radius: 10px 0 0 10px;
+  padding: 12px;
+  color: white;
+  width: 60%;
 }
 
 /* Buttons */
 
 .add-ticker-btn {
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  font-size: 3em;
-  padding: 0 0.35em;
+  background: #533483;
+  border: 2px solid #533483;
+  border-radius: 0 10px 10px 0;
+  padding: 0 15px;
   cursor: pointer;
-  border: 2px solid;
 }
 
 .add-ticker-svg {
@@ -132,38 +146,58 @@ input[type="text"] {
 }
 
 .generate-report-btn {
-  width: 70%;
-  padding: 1em 1.5em;
+  width: 100%;
+  padding: 15px;
+  background: var(--primary-gold);
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
-  font-family: "Poppins", sans;
-  border: 2px solid #000000;
-  background-color: #46ff90;
-  text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  font-size: 105%;
+  transition: 0.3s;
 }
 
-/* ticker display (ensure comma separated) */
+.generate-report-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.generate-report-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.generate-report-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+/* Ticker display  */
 
 .ticker {
-  margin: 0 0.1em;
-  content: "";
+  background: var(--primary-gold);
+  color: #1a1a2e;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
-.ticker:after {
-  content: ",";
+.ticker-choice-display {
+  min-height: 50px;
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
-.ticker:last-child::after {
-  content: "";
-}
-
-/* footer */
+/* Footer */
 
 footer {
-  font-size: 14px;
+  padding: 1rem;
   text-align: center;
+  font-size: 0.8rem;
+  color: #533483;
 }
 
 /* stop ugly scroll bar on some browsers */
