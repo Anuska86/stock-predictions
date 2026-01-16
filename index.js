@@ -1,7 +1,8 @@
 import { dates } from "/utils/dates.js";
 
 const massiveKey = import.meta.env.VITE_MASSIVE_API_KEY;
-const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
+const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+//const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
 const tickersArr = [];
 
@@ -76,46 +77,74 @@ async function fetchStockData() {
   }
 }
 
-//The AI report
+//fetchReport
+
 async function fetchReport(data) {
   try {
     apiMessage.innerText = "The cat is consulting the stars...";
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${openaiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model:"gpt-4o",
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are Purrdict, a stock market expert cat. You give financial advice using cat puns. You are professional but very feline. Keep reports to 3 sentences.",
-          },
-          {
-            role: "user",
-            content: `Analyze this stock data and give a purr-diction: ${data}`,
-          },
-        ],
-      }),
-    });
+    const aiReport = await fetchGeminiReport(data);
 
-    const result = await response.json();
-
-    if (result.choices && result.choices[0]) {
-      const aiReport = result.choices[0].message.content;
-      renderReport(aiReport);
-    } else {
-      throw new Error("AI could not generate a response.");
-    }
+    renderReport(aiReport);
   } catch (err) {
-    apiMessage.innerText = "The cat got a hairball. Check your API key!";
+    apiMessage.innerText = "The cat got a hairball. Check your API keys!";
     console.error("AI Error:", err);
   }
 }
+
+//Google Gemini
+
+async function fetchGeminiReport(data) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
+            {
+              text: `You are Purrdict, a stock market expert cat. Use cat puns. Professional but feline. Keep to 3 sentences. Analyze this: ${data}`,
+            },
+          ],
+        },
+      ],
+    }),
+  });
+
+  const result = await response.json();
+  return result.candidates[0].content.parts[0].text;
+}
+
+/*
+PAID OPTION: OpenAI
+ 
+async function fetchOpenAIReport(data) {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${openaiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are Purrdict, a stock market expert cat. Use cat puns. Professional but feline. Keep to 3 sentences.",
+        },
+        { role: "user", content: `Analyze this stock data: ${data}` },
+      ],
+    }),
+  });
+
+  const result = await response.json();
+  return result.choices[0].message.content;
+}
+
+*/
 
 // Render the report
 
@@ -125,12 +154,23 @@ function renderReport(output) {
   outputArea.style.display = "block";
 
   // Check if paragraph already exists, otherwise create it
-  let reportP = outputArea.querySelector("p");
-  if (!reportP) {
-    reportP = document.createElement("p");
-    outputArea.appendChild(reportP);
+  let reportP = outputArea.querySelector("p") || document.createElement("p");
+  if (!outputArea.querySelector("p")) outputArea.appendChild(reportP);
+
+  // Typewriter effect
+  reportP.textContent = "";
+  let i = 0;
+  const speed = 30;
+
+  function typeWriter() {
+    if (i < output.length) {
+      reportP.textContent += output.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
   }
-  reportP.textContent = output;
-  tickersArr.length = 0; 
+  typeWriter();
+
+  tickersArr.length = 0;
   generateReportBtn.disabled = true;
 }
