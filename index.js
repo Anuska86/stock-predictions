@@ -10,6 +10,9 @@ const generateReportBtn = document.querySelector(".generate-report-btn");
 const tickerInput = document.getElementById("ticker-input");
 const label = document.querySelector("label");
 
+const modal = document.getElementById("history-modal");
+const historyList = document.getElementById("history-list");
+
 generateReportBtn.addEventListener("click", fetchStockData);
 
 //Ticker form
@@ -170,6 +173,8 @@ async function fetchOpenAIReport(data) {
 // Render the report
 
 function renderReport(output) {
+  saveToHistory(output);
+
   loadingArea.style.display = "none";
   const outputArea = document.querySelector(".output-panel");
   outputArea.style.display = "block";
@@ -234,3 +239,40 @@ async function updateMarketStatus() {
 
 updateMarketStatus();
 setInterval(updateMarketStatus, 300000);
+
+//History
+function saveToHistory(text) {
+  let history = JSON.parse(localStorage.getItem("purrdictHistory")) || [];
+  history.unshift({ date: new Date().toLocaleDateString(), text: text });
+  if (history.length > 5) history.pop();
+  localStorage.setItem("purrdictHistory", JSON.stringify(history));
+}
+
+// 2. Open Modal Logic
+document
+  .querySelector('a[href="#"]:first-of-type')
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    const history = JSON.parse(localStorage.getItem("purrdictHistory")) || [];
+    historyList.innerHTML = history.length
+      ? history
+          .map((h) => `<div><strong>${h.date}:</strong> ${h.text}</div>`)
+          .join("")
+      : "<p>No history yet. Start trading!</p>";
+    modal.style.display = "block";
+  });
+
+// 3. Close Modal Logic
+document.querySelector(".close-modal").onclick = () =>
+  (modal.style.display = "none");
+window.onclick = (event) => {
+  if (event.target == modal) modal.style.display = "none";
+};
+
+// Clear History Logic
+document.getElementById("clear-history").addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear your 9 lives of history?")) {
+    localStorage.removeItem("purrdictHistory");
+    historyList.innerHTML = "<p>No history yet. Start trading!</p>";
+  }
+});
