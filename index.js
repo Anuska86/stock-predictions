@@ -203,6 +203,8 @@ function renderReport(output) {
 
 //Market Status
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 async function updateMarketStatus() {
   const tickers = [
     { id: "btc", poly: "X:BTCUSD" },
@@ -215,6 +217,13 @@ async function updateMarketStatus() {
     for (const item of tickers) {
       const url = `https://api.polygon.io/v2/aggs/ticker/${item.poly}/prev?adjusted=true&apiKey=${massiveKey}`;
       const response = await fetch(url);
+
+      // If we hit the limit, stop and wait
+      if (response.status === 429) {
+        console.warn("Rate limit hit, pausing ticker updates...");
+        break;
+      }
+
       const data = await response.json();
 
       if (data.results && data.results[0]) {
@@ -231,6 +240,7 @@ async function updateMarketStatus() {
           }`;
         });
       }
+      await delay(12000);
     }
   } catch (err) {
     console.error("Market Status Error:", err);
