@@ -195,3 +195,39 @@ function renderReport(output) {
   tickersArr.length = 0;
   generateReportBtn.disabled = true;
 }
+
+//Market Status
+
+async function updateMarketStatus() {
+  const tickers = [
+    { id: "btc", poly: "X:BTCUSD" },
+    { id: "eth", poly: "X:ETHUSD" },
+    { id: "spy", poly: "SPY" },
+    { id: "gold", poly: "C:XAUUSD" },
+  ];
+
+  try {
+    for (const item of tickers) {
+      const url = `https://api.polygon.io/v2/aggs/ticker/${item.poly}/prev?adjusted=true&apiKey=${massiveKey}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.results && data.results[0]) {
+        const closePrice = data.results[0].c;
+        const priceFormatted = closePrice.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+
+        const elements = document.querySelectorAll(`[id^="${item.id}-status"]`);
+        elements.forEach((el) => {
+          el.innerText = `${item.id.toUpperCase()}: $${priceFormatted} ${
+            closePrice > data.results[0].o ? "🚀" : "📉"
+          }`;
+        });
+      }
+    }
+  } catch (err) {
+    console.error("Market Status Error:", err);
+  }
+}

@@ -57,14 +57,35 @@ main {
 /*Market status*/
 
 .market-status {
-  background: #16213e;
-  font-size: 12px;
-  padding: 5px 0;
-  display: flex;
-  gap: 30px;
-  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--card-bg);
   border-bottom: 1px solid #533483;
+  padding: 12px 0;
+}
+
+.ticker-wrapper {
+  display: inline-flex;
+  animation: marquee 20s linear infinite;
+}
+
+.ticker-wrapper span {
+  padding: 0 40px;
+  font-weight: bold;
   color: var(--primary-gold);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.market-status:hover .ticker-wrapper {
+  animation-play-state: paused;
 }
 
 /*Logo*/

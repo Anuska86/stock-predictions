@@ -17,10 +17,17 @@
   </head>
   <body>
     <div class="market-status">
-      <span>BTC: +2.4% 🚀</span>
-      <span>SPY: -0.5% 📉</span>
-      <span>ETH: +1.2% 📈</span>
-      <span>GOLD: +0.8% ✨</span>
+      <div class="ticker-wrapper">
+        <span id="btc-status">BTC: Loading...</span>
+        <span id="eth-status">ETH: Loading...</span>
+        <span id="spy-status">SPY: Loading...</span>
+        <span id="gold-status">GOLD: Loading...</span>
+
+        <span id="btc-status-copy" aria-hidden="true">BTC: Loading...</span>
+        <span id="eth-status-copy" aria-hidden="true">ETH: Loading...</span>
+        <span id="spy-status-copy" aria-hidden="true">SPY: Loading...</span>
+        <span id="gold-status-copy" aria-hidden="true">GOLD: Loading...</span>
+      </div>
     </div>
     <header>
       <nav class="header-nav">
