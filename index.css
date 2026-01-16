@@ -1,3 +1,5 @@
+/*BASE*/
+
 html,
 body {
   margin: 0;
@@ -15,17 +17,18 @@ header {
   justify-content: center;
   padding: 1em;
   background-color: black;
-  max-width: 500px;
   margin: 0 auto;
-}
-
-header img {
-  width: 340px;
 }
 
 main {
   display: flex;
   justify-content: center;
+}
+
+/*Logo*/
+
+#logo {
+  width: 250px;
 }
 
 /* Panels */
