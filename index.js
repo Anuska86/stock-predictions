@@ -231,3 +231,6 @@ async function updateMarketStatus() {
     console.error("Market Status Error:", err);
   }
 }
+
+updateMarketStatus();
+setInterval(updateMarketStatus, 300000);
