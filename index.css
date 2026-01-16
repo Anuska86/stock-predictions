@@ -20,10 +20,29 @@ body {
 
 header {
   background: #0f3460;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
+  padding: 1rem 2rem;
   border-bottom: 3px solid var(--primary-gold);
+}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.header-nav a:hover {
+  color: var(--primary-gold);
 }
 
 main {
@@ -32,6 +51,19 @@ main {
   justify-content: center;
   align-items: flex-start;
   padding-top: 2rem;
+}
+
+/*Market status*/
+
+.market-status {
+  background: #16213e;
+  font-size: 12px;
+  padding: 5px 0;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  border-bottom: 1px solid #533483;
+  color: var(--primary-gold);
 }
 
 /*Logo*/
@@ -167,7 +199,7 @@ input[type="text"] {
 }
 
 .generate-report-btn:disabled {
-  opacity: 0.2;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
