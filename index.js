@@ -95,7 +95,7 @@ async function fetchReport(data) {
 //Google Gemini
 
 async function fetchGeminiReport(data) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`;
 
   const response = await fetch(url, {
     method: "POST",
@@ -114,7 +114,16 @@ async function fetchGeminiReport(data) {
   });
 
   const result = await response.json();
-  return result.candidates[0].content.parts[0].text;
+
+  if (result.error) {
+    throw new Error(`Gemini API Error: ${result.error.message}`);
+  }
+
+  if (result.candidates && result.candidates[0]) {
+    return result.candidates[0].content.parts[0].text;
+  } else {
+    throw new Error("The cat is speechless! (No candidates returned)");
+  }
 }
 
 /*
