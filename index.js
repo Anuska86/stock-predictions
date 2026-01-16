@@ -1,6 +1,7 @@
 import { dates } from "/utils/dates.js";
 
-const apiKey = import.meta.env.VITE_MASSIVE_API_KEY;
+const massiveKey = import.meta.env.VITE_MASSIVE_API_KEY;
+const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
 const tickersArr = [];
 
@@ -59,7 +60,7 @@ async function fetchStockData() {
   try {
     const stockData = await Promise.all(
       tickersArr.map(async (ticker) => {
-        const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=${process.env.POLYGON_API_KEY}`;
+        const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=${massiveKey}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error("API Error");
 
@@ -75,8 +76,45 @@ async function fetchStockData() {
   }
 }
 
+//The AI report
 async function fetchReport(data) {
-  /** AI goes here **/
+  try {
+    apiMessage.innerText = "The cat is consulting the stars...";
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${openaiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model:"gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are Purrdict, a stock market expert cat. You give financial advice using cat puns. You are professional but very feline. Keep reports to 3 sentences.",
+          },
+          {
+            role: "user",
+            content: `Analyze this stock data and give a purr-diction: ${data}`,
+          },
+        ],
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.choices && result.choices[0]) {
+      const aiReport = result.choices[0].message.content;
+      renderReport(aiReport);
+    } else {
+      throw new Error("AI could not generate a response.");
+    }
+  } catch (err) {
+    apiMessage.innerText = "The cat got a hairball. Check your API key!";
+    console.error("AI Error:", err);
+  }
 }
 
 // Render the report
@@ -93,4 +131,6 @@ function renderReport(output) {
     outputArea.appendChild(reportP);
   }
   reportP.textContent = output;
+  tickersArr.length = 0; 
+  generateReportBtn.disabled = true;
 }
