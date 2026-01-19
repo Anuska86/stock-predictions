@@ -97,7 +97,7 @@ async function fetchStockData() {
         const data = await response.text();
         apiMessage.innerText = "The cat is thinking...";
         return data;
-      })
+      }),
     );
     fetchReport(stockData.join(""));
   } catch (err) {
@@ -124,46 +124,23 @@ async function fetchReport(data) {
 //Google Gemini
 
 async function fetchGeminiReport(data) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${geminiKey}`;
-
-  const response = await fetch(url, {
+  // We call our API endpoint, which Vercel hosts at /api/filename
+  const response = await fetch("/api/get-purrdiction", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            {
-              text: `You are Purrdict, a stock market expert cat. Use cat puns. Professional but feline. Keep to 3 sentences. Analyze this: ${data}`,
-            },
-          ],
-        },
-      ],
-      safetySettings: [
-        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-        {
-          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-          threshold: "BLOCK_NONE",
-        },
-        {
-          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-          threshold: "BLOCK_NONE",
-        },
-      ],
-    }),
+    body: JSON.stringify({ tickerData: data }),
   });
 
-  const result = await response.json();
-
-  if (result.error) {
-    throw new Error(`Gemini API Error: ${result.error.message}`);
+  if (!response.ok) {
+    throw new Error("The cat is napping... (Server Error)");
   }
+
+  const result = await response.json();
 
   if (result.candidates && result.candidates[0]) {
     return result.candidates[0].content.parts[0].text;
   } else {
-    throw new Error("The cat is speechless! (No candidates returned)");
+    throw new Error("The cat is speechless!");
   }
 }
 
