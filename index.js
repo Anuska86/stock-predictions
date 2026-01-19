@@ -225,7 +225,9 @@ function renderReport(output) {
   }
   typeWriter();
 
+  //reset
   tickersArr.length = 0;
+  renderTickers();
   generateReportBtn.disabled = true;
 }
 

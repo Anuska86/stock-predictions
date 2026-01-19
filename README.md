@@ -1,123 +1,69 @@
-# stock-predictions
+# 🐾 Purrdict Stocks | AI Financial Analysis
 
-# 🐾 Purrdict AI Stock Analyst
+Purrdict is a cat-themed financial analysis tool that uses AI to provide "purrdictions" on stock market data. Built with a secure serverless architecture to keep API keys safe.
 
-Purrdict is an AI-powered stock market analysis tool that uses a feline twist. It fetches real-time market data via the **Massive (Polygon.io) API** and generates "purr-dictions" using **OpenAI's GPT-4o**.
+## ✨ Features
 
-## 🚀 Quick Start
+- **Real-time Market Ticker:** Live prices for BTC, ETH, SPY, and Gold.
+- **AI Analysis:** Custom stock analysis powered by Google Gemini.
+- **Secure Backend:** Vercel Serverless Functions protect sensitive API keys.
+- **User History:** Track past "purrdictions" using LocalStorage.
+- **Dynamic UI:** Interactive ticker selection with "remove" capabilities and typewriter effects.
 
-To start the project again after turning on your PC:
+## 🛠️ Tech Stack
 
-1. **Open your terminal** (Command Prompt, Terminal, or VS Code Terminal).
-2. **Navigate to the project folder**:
+- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
+- **Backend:** Node.js (Vercel Serverless Functions)
+- **APIs:** Polygon.io (Market Data), Google Gemini (AI Analysis)
+
+## 🚀 Local Development
+
+1. **Clone the repo:**
+
    ```bash
-   cd path/to/your/project-folder
-   ```
-3. Run the development server:
+   git clone [https://github.com/your-username/purrdict-stocks.git](https://github.com/your-username/purrdict-stocks.git)
 
-Bash
-npm run dev
-
-4. Open your browser to the local URL provided in the terminal (usually http://localhost:5173).
-
-It's a smart move to write this down now! A README.md file is like a manual for your future self (or other developers) so you don't have to remember every command.
-
-Since you are using Vite, here is a clean, professional README.md you can save in your project's root folder.
-
-Markdown
-
-# 🐾 Purrdict AI Stock Analyst
-
-Purrdict is an AI-powered stock market analysis tool that uses a feline twist. It fetches real-time market data via the **Massive (Polygon.io) API** and generates "purr-dictions" using **OpenAI's GPT-4o**.
-
-## 🚀 Quick Start
-
-To start the project again after turning on your PC:
-
-1. **Open your terminal** (Command Prompt, Terminal, or VS Code Terminal).
-2. **Navigate to the project folder**:
-   ```bash
-   cd path/to/your/project-folder
-   Run the development server:
    ```
 
-Bash
-npm run dev
-Open your browser to the local URL provided in the terminal (usually http://localhost:5173).
-
-🛠️ Installation & Setup
-If you are setting this up on a new machine, follow these steps:
-
-1. Install Dependencies:
-
-Bash
-npm install
-
-It's a smart move to write this down now! A README.md file is like a manual for your future self (or other developers) so you don't have to remember every command.
-
-Since you are using Vite, here is a clean, professional README.md you can save in your project's root folder.
-
-Markdown
-
-# 🐾 Purrdict AI Stock Analyst
-
-Purrdict is an AI-powered stock market analysis tool that uses a feline twist. It fetches real-time market data via the **Massive (Polygon.io) API** and generates "purr-dictions" using **OpenAI's GPT-4o**.
-
-## 🚀 Quick Start
-
-To start the project again after turning on your PC:
-
-1. **Open your terminal** (Command Prompt, Terminal, or VS Code Terminal).
-2. **Navigate to the project folder**:
-   ```bash
-   cd path/to/your/project-folder
-   Run the development server:
-   ```
-
-Bash
-npm run dev
-Open your browser to the local URL provided in the terminal (usually http://localhost:5173).
-
-🛠️ Installation & Setup
-If you are setting this up on a new machine, follow these steps:
-
-Install Dependencies:
-
-Bash
-npm install
-
-2.Configure Environment Variables: Create a file named .env in the root directory and add your API keys:
+2. Set up Environment Variables: Create a .env file in the root:
 
 Code snippet
-VITE_MASSIVE_API_KEY=your_polygon_api_key_here
-VITE_OPENAI_API_KEY=your_openai_api_key_here
+GEMINI_API_KEY=your_key_here
+VITE_MASSIVE_API_KEY=your_polygon_key_here
 
-📁 Project Structure
+3. Install Vercel CLI:
 
-index.html - The main UI structure.
+Bash
+npm i -g vercel
 
-index.js - App logic (fetching data and AI integration).
+4. Run the App:
 
-index.css - Custom Purrdict "Gold & Dark Blue" styling.
+Bash
+vercel dev
 
-/utils/dates.js - Helper for calculating stock date ranges.
+🌐 Deployment (Vercel)
 
-/images - Contains purrdict.png and icons.
+To deploy this project to the web:
 
-⚠️ Important Note
+1. Push your code to a GitHub repository.
 
-Never share or commit your .env file to GitHub. It contains your private API keys which could lead to unexpected costs if leaked.
+2. Import the project into the Vercel Dashboard.
 
----
+3. Important: Go to Project Settings > Environment Variables and add GEMINI_API_KEY and VITE_MASSIVE_API_KEY.
 
-### One last thing to check!
+4. Deploy!
 
-For `npm run dev` to work, make sure your `package.json` file has this section inside of it:
+📂 Project Structure
 
-```json
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-},
-```
+├── api/
+│ └── get-purrdiction.js # Serverless function (Backend)
+├── images/ # Assets (Logos, Icons, Loader)
+├── utils/
+│ └── dates.js # Date formatting utility
+├── index.html # Main entry point
+├── index.css # Custom styling
+├── index.js # Frontend logic & API calls
+└── LICENSE # MIT License details
+
+📜 License
+This project is licensed under the MIT License. You are free to use, modify, and distribute this software. See the LICENSE file for more details.
