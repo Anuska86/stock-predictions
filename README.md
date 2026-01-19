@@ -70,3 +70,15 @@ To deploy this project to the web:
 
 📜 License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software. See the LICENSE file for more details.
+
+---
+
+## 👨‍💻 About the Developer
+
+Ana Sappia Rey Building tools that make data more accessible (and a bit more fun). 
+
+- 🌌 **Interest:** AI Integration & Secure Cloud Architecture
+- 📧 **Contact:** https://www.linkedin.com/in/ana-sappia-rey/
+- 🐙 **GitHub:** [@Anuska86]https://github.com/anuska86
+
+---
