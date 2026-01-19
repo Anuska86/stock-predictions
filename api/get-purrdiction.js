@@ -3,7 +3,7 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Method not allowed" });
   }
 
-  const { tickerData } = JSON.parse(request.body);
+  const { tickerData } = request.body;
   const geminiKey = process.env.GEMINI_API_KEY;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${geminiKey}`;
