@@ -4,6 +4,7 @@ Purrdict is a cat-themed financial analysis tool that uses AI to provide "purrdi
 
 ![Purrdict Logo](images/screenshot.png)
 
+[🚀 View Live Demo](https://stock-predictions-roan.vercel.app/)
 
 ## ✨ Features
 
@@ -24,7 +25,7 @@ Purrdict is a cat-themed financial analysis tool that uses AI to provide "purrdi
 1. **Clone the repo:**
 
    ```bash
-   git clone [https://github.com/your-username/purrdict-stocks.git](https://github.com/your-username/purrdict-stocks.git)
+   git clone (https://github.com/anuska86/purrdict-stocks.git)
 
    ```
 
@@ -75,7 +76,7 @@ This project is licensed under the MIT License. You are free to use, modify, and
 
 ## 👨‍💻 About the Developer
 
-Ana Sappia Rey Building tools that make data more accessible (and a bit more fun). 
+Ana Sappia Rey Building tools that make data more accessible (and a bit more fun).
 
 - 🌌 **Interest:** AI Integration & Secure Cloud Architecture
 - 📧 **Contact:** https://www.linkedin.com/in/ana-sappia-rey/
