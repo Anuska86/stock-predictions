@@ -162,6 +162,13 @@ p.tag-line {
   font-size: 14px;
 }
 
+/*Out-pane.*/
+.output-panel {
+  min-height: 300px;
+  height: auto;
+  padding-bottom: 2rem;
+}
+
 /* Controls */
 
 form {
