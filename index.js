@@ -70,10 +70,35 @@ document.querySelectorAll(".suggestion-btn").forEach((btn) => {
 function renderTickers() {
   const tickersDiv = document.querySelector(".ticker-choice-display");
   tickersDiv.innerHTML = "";
-  tickersArr.forEach((ticker) => {
+
+  if (tickersArr.length === 0) {
+    tickersDiv.innerHTML =
+      '<span class="placeholder-text">Your tickers will appear here...</span>';
+    generateReportBtn.disabled = true;
+    return;
+  }
+
+  tickersArr.forEach((ticker, index) => {
     const newTickerSpan = document.createElement("span");
     newTickerSpan.textContent = ticker;
     newTickerSpan.classList.add("ticker");
+
+    const removeBtn = document.createElement("button");
+    removeBtn.innerHTML = "&times;"; // The 'x' symbol
+    removeBtn.classList.add("remove-ticker-btn");
+    removeBtn.setAttribute("aria-label", `Remove ${ticker}`);
+
+    removeBtn.onclick = () => {
+      tickersArr.splice(index, 1); // Remove from array
+      renderTickers();
+
+      // If no tickers left, disable the generate button
+      if (tickersArr.length === 0) {
+        generateReportBtn.disabled = true;
+      }
+    };
+
+    newTickerSpan.appendChild(removeBtn);
     tickersDiv.appendChild(newTickerSpan);
   });
 }
