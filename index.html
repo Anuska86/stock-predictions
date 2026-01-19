@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -51,6 +51,8 @@
               id="ticker-input"
               placeholder="AAPL"
               maxlength="5"
+              pattern="[A-Za-z]{2,5}"
+              required
             />
             <button class="add-ticker-btn" type="submit">
               <img src="images/add.svg" class="add-ticker-svg" alt="add" />
@@ -62,7 +64,7 @@
           <span class="placeholder-text">Your tickers will appear here...</span>
         </div>
 
-        <label>Input stock tickers for a Purrdicted™ market analysis.</label>
+        <span>Input stock tickers for a Purrdicted™ market analysis.</span>
 
         <div class="suggestions-container">
           <small>Try: </small>
@@ -79,8 +81,6 @@
             NVDA
           </button>
         </div>
-
-        <form id="ticker-input-form"></form>
 
         <button class="generate-report-btn" type="button" disabled>
           Fetch Purrdiction

@@ -242,6 +242,14 @@ input[type="text"] {
   border-radius: 12px;
   font-weight: bold;
   font-size: 0.8rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.ticker:hover::after {
+  content: "x";
+  margin-left: 8px;
+  color: var(--accent-red);
 }
 
 .ticker-choice-display {
