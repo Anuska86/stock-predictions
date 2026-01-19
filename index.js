@@ -39,6 +39,32 @@ document.getElementById("ticker-input-form").addEventListener("submit", (e) => {
   }
 });
 
+// Suggestions
+document.querySelectorAll(".suggestion-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const ticker = btn.getAttribute("data-ticker");
+
+    // Check if we already have 3 tickers or if it's already in the list
+    if (tickersArr.length < 3 && !tickersArr.includes(ticker)) {
+      tickersArr.push(ticker);
+      renderTickers();
+      generateReportBtn.disabled = false;
+
+      // Visual feedback
+      label.style.color = "#4CAF50";
+      label.textContent = `Added ${ticker}!`;
+      setTimeout(() => {
+        label.style.color = "white";
+        label.textContent =
+          "Input stock tickers for a Purrdicted™ market analysis.";
+      }, 1000);
+    } else if (tickersArr.length >= 3) {
+      label.textContent = "Max 3 tickers allowed.";
+      label.style.color = "#e94560";
+    }
+  });
+});
+
 //Render the tickers
 
 function renderTickers() {
