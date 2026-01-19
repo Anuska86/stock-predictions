@@ -2,6 +2,9 @@
 
 Purrdict is a cat-themed financial analysis tool that uses AI to provide "purrdictions" on stock market data. Built with a secure serverless architecture to keep API keys safe.
 
+![Purrdict Logo](images/screenshot.png)
+
+
 ## ✨ Features
 
 - **Real-time Market Ticker:** Live prices for BTC, ETH, SPY, and Gold.
