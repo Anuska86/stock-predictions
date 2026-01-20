@@ -26,7 +26,7 @@ Purrdict is a cat-themed financial analysis tool that uses AI to provide "purrdi
 1. **Clone the repo:**
 
    ```bash
-   git clone (https://github.com/anuska86/purrdict-stocks.git)
+   git clone (https://github.com/Anuska86/stock-predictions)
 
    ```
 
