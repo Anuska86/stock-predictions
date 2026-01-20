@@ -1,5 +1,3 @@
-import { dates } from "/utils/dates.js";
-
 const tickersArr = [];
 
 const generateReportBtn = document.querySelector(".generate-report-btn");
