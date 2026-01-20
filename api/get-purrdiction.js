@@ -19,7 +19,8 @@ export default async function handler(request, response) {
     );
 
     // Call Gemini
-    const aiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+
+    const aiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${geminiKey}`;
     const aiResponse = await fetch(aiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -28,7 +29,7 @@ export default async function handler(request, response) {
           {
             parts: [
               {
-                text: `You are Purrdict, a stock market expert cat. Use cat puns. Professional but feline. Keep to 3 sentences. Analyze this stock data: ${JSON.stringify(stockData)}`,
+                text: `You are Purrdict, a stock market expert cat. Use cat puns. Professional but feline. Keep to 3 sentences. Analyze this stock data: ${JSON.stringify(stockResults)}`,
               },
             ],
           },

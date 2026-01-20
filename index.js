@@ -109,19 +109,23 @@ async function fetchStockData() {
   loadingArea.style.display = "flex";
   apiMessage.innerText = "The cat is sniffing the charts...";
 
+  const oldRetry = loadingArea.querySelector(".reset-btn");
+  if (oldRetry) oldRetry.remove();
+
   try {
-    // Call Vercel function
     const response = await fetch("/api/get-purrdiction", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tickers: tickersArr }),
     });
 
-    if (!response.ok) throw new Error("Server error");
-
     const result = await response.json();
+    console.log("Full AI Result:", result);
 
-    // Extract the text from Gemini's response
+    if (!response.ok) {
+      throw new Error(result.error || "The server-cat is napping.");
+    }
+
     if (result.candidates && result.candidates[0]) {
       const reportText = result.candidates[0].content.parts[0].text;
       renderReport(reportText);
@@ -129,50 +133,16 @@ async function fetchStockData() {
       throw new Error("The cat is speechless!");
     }
   } catch (err) {
-    apiMessage.innerText = "The cat got a hairball. Try again!";
+    apiMessage.innerText = `The cat got a hairball: ${err.message}`;
     console.error("Fetch Error:", err);
-    const retryBtn = document.createElement("button");
-    retryBtn.innerText = "Try Again";
-    retryBtn.onclick = resetUI;
-    loadingArea.appendChild(retryBtn);
-  }
-}
 
-//fetchReport
-
-async function fetchReport(data) {
-  try {
-    apiMessage.innerText = "The cat is consulting the stars...";
-
-    const aiReport = await fetchGeminiReport(data);
-
-    renderReport(aiReport);
-  } catch (err) {
-    apiMessage.innerText = "The cat got a hairball. Check your API keys!";
-    console.error("AI Error:", err);
-  }
-}
-
-//Google Gemini
-
-async function fetchGeminiReport(data) {
-  // We call our API endpoint, which Vercel hosts at /api/filename
-  const response = await fetch("/api/get-purrdiction", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tickerData: data }),
-  });
-
-  if (!response.ok) {
-    throw new Error("The cat is napping... (Server Error)");
-  }
-
-  const result = await response.json();
-
-  if (result.candidates && result.candidates[0]) {
-    return result.candidates[0].content.parts[0].text;
-  } else {
-    throw new Error("The cat is speechless!");
+    if (!loadingArea.querySelector("button")) {
+      const retryBtn = document.createElement("button");
+      retryBtn.innerText = "Try Again";
+      retryBtn.className = "reset-btn";
+      retryBtn.onclick = resetUI;
+      loadingArea.appendChild(retryBtn);
+    }
   }
 }
 
