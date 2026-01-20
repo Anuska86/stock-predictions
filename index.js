@@ -243,42 +243,34 @@ function renderReport(output) {
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 async function updateMarketStatus() {
-  const tickers = [
-    { id: "btc", poly: "X:BTCUSD" },
-    { id: "eth", poly: "X:ETHUSD" },
-    { id: "spy", poly: "SPY" },
-    { id: "gold", poly: "C:XAUUSD" },
-  ];
-
   try {
-    for (const item of tickers) {
-      const url = `https://api.polygon.io/v2/aggs/ticker/${item.poly}/prev?adjusted=true&apiKey=${massiveKey}`;
-      const response = await fetch(url);
+    const response = await fetch("/api/get-prices");
+    if (!response.ok) throw new Error("Network response was not ok");
+    const dataArray = await response.json();
 
-      // If we hit the limit, stop and wait
-      if (response.status === 429) {
-        console.warn("Rate limit hit, pausing ticker updates...");
-        break;
-      }
+    const ids = ["btc", "eth", "spy", "gold"];
 
-      const data = await response.json();
-
+    dataArray.forEach((data, index) => {
       if (data.results && data.results[0]) {
-        const closePrice = data.results[0].c;
+        const item = data.results[0];
+        const closePrice = item.c;
         const priceFormatted = closePrice.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         });
 
-        const elements = document.querySelectorAll(`[id^="${item.id}-status"]`);
+        const tickerId = ids[index];
+        const elements = document.querySelectorAll(
+          `[id^="${tickerId}-status"]`,
+        );
+
         elements.forEach((el) => {
-          el.innerText = `${item.id.toUpperCase()}: $${priceFormatted} ${
-            closePrice > data.results[0].o ? "🚀" : "📉"
+          el.innerText = `${tickerId.toUpperCase()}: $${priceFormatted} ${
+            closePrice > item.o ? "🚀" : "📉"
           }`;
         });
       }
-      await delay(12000);
-    }
+    });
   } catch (err) {
     console.error("Market Status Error:", err);
   }
