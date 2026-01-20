@@ -3,7 +3,7 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Method not allowed" });
   }
 
-  const { tickerData } = request.body;
+  const { tickers } = request.body;
   const geminiKey = process.env.GEMINI_API_KEY;
   const polygonKey = process.env.POLYGON_API_KEY;
 
