@@ -1,9 +1,5 @@
 import { dates } from "/utils/dates.js";
 
-const massiveKey = import.meta.env.VITE_MASSIVE_API_KEY;
-const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
-//const openaiKey = import.meta.env.VITE_OPENAI_API_KEY;
-
 const tickersArr = [];
 
 const generateReportBtn = document.querySelector(".generate-report-btn");
@@ -111,23 +107,34 @@ const apiMessage = document.getElementById("api-message");
 async function fetchStockData() {
   document.querySelector(".action-panel").style.display = "none";
   loadingArea.style.display = "flex";
+  apiMessage.innerText = "The cat is sniffing the charts...";
 
   try {
-    const stockData = await Promise.all(
-      tickersArr.map(async (ticker) => {
-        const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${dates.startDate}/${dates.endDate}?apiKey=${massiveKey}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("API Error");
+    // Call Vercel function
+    const response = await fetch("/api/get-purrdiction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tickers: tickersArr }),
+    });
 
-        const data = await response.text();
-        apiMessage.innerText = "The cat is thinking...";
-        return data;
-      }),
-    );
-    fetchReport(stockData.join(""));
+    if (!response.ok) throw new Error("Server error");
+
+    const result = await response.json();
+
+    // Extract the text from Gemini's response
+    if (result.candidates && result.candidates[0]) {
+      const reportText = result.candidates[0].content.parts[0].text;
+      renderReport(reportText);
+    } else {
+      throw new Error("The cat is speechless!");
+    }
   } catch (err) {
-    apiMessage.innerText = "The cat is distracted. Try again!";
-    console.error("error: ", err);
+    apiMessage.innerText = "The cat got a hairball. Try again!";
+    console.error("Fetch Error:", err);
+    const retryBtn = document.createElement("button");
+    retryBtn.innerText = "Try Again";
+    retryBtn.onclick = resetUI;
+    loadingArea.appendChild(retryBtn);
   }
 }
 
@@ -316,3 +323,27 @@ document.getElementById("clear-history").addEventListener("click", () => {
     historyList.innerHTML = "<p>No history yet. Start trading!</p>";
   }
 });
+
+/*Reset UI*/
+
+function resetUI() {
+  // Hide the output and loading panels
+  document.querySelector(".output-panel").style.display = "none";
+  document.querySelector(".loading-panel").style.display = "none";
+
+  // Show the input panel
+  document.querySelector(".action-panel").style.display = "block";
+
+  // Clear any old text f
+  const reportP = document.querySelector(".output-panel p");
+  if (reportP) reportP.textContent = "";
+
+  tickersArr.length = 0;
+  renderTickers();
+
+  label.style.color = "white";
+  label.textContent =
+    "Input stock tickers to receive a Purrdicted™ market analysis.";
+}
+
+document.getElementById("reset-ui-btn").addEventListener("click", resetUI);
