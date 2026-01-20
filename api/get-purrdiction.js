@@ -38,7 +38,10 @@ export default async function handler(request, response) {
     });
 
     const result = await aiResponse.json();
-    response.status(200).json(result);
+    const aiText =
+      result.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "The cat is napping...";
+    response.status(200).json({ report: aiText });
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: "The server-cat got a hairball." });

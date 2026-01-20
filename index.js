@@ -126,11 +126,13 @@ async function fetchStockData() {
       throw new Error(result.error || "The server-cat is napping.");
     }
 
-    if (result.candidates && result.candidates[0]) {
-      const reportText = result.candidates[0].content.parts[0].text;
-      renderReport(reportText);
+    const reportText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (response.ok && result.report) {
+      renderReport(result.report);
     } else {
-      throw new Error("The cat is speechless!");
+      console.error("Unexpected API structure:", result);
+      throw new Error("The cat is confused by the data format!");
     }
   } catch (err) {
     apiMessage.innerText = `The cat got a hairball: ${err.message}`;
